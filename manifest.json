@@ -1,6 +1,5 @@
 {
   "additional_parameters": {
-    "subscription_key": {}
   },
   "auth": "api_key",
   "datatypes": {

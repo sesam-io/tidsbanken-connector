@@ -1,7 +1,7 @@
 {
   "_id": "{{@ system @}}",
   "headers": {
-    "Ocp-Apim-Subscription-Key": "{{@ subscription_key @}}",
+    "Ocp-Apim-Subscription-Key": "$SECRET(subscription_key)",
     "tb-key": "$SECRET(api_key)",
     "x-api-version": "3.0"
   },
