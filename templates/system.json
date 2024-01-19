@@ -2,11 +2,13 @@
   "_id": "{{@ system @}}",
   "headers": {
     "tb-key": "$SECRET(api_key)",
-    "Ocp-Apim-Subscription-Key": "{{ subscription_key }}"
+    "Ocp-Apim-Subscription-Key": "{{ subscription_key }}",
+    "x-api-version": "3.0"
   },
   "operations": {
     "ansatt-list": {
-      "id_expression": "{{ id }}",
+      "id_expression": "{{ Id }}",
+      "payload_property": "value",
       "method": "GET",
       "url": "ansatt/ansatt?$select=*&$top=10"
     }
