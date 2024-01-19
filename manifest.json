@@ -1,0 +1,12 @@
+{
+  "additional_parameters": {
+    "subscription_key": {}
+  },
+  "auth": "api_key",
+  "datatypes": {
+    "ansatt": {
+      "template": "templates/ansatt.json"
+    }
+  },
+  "system-template": "templates/system.json"
+}

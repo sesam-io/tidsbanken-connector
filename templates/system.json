@@ -1,0 +1,17 @@
+{
+  "_id": "{{@ system @}}",
+  "headers": {
+    "tb-key": "$SECRET(api_key)",
+    "Ocp-Apim-Subscription-Key": "{{ subscription_key }}"
+  },
+  "operations": {
+    "ansatt-list": {
+      "id_expression": "{{ id }}",
+      "method": "GET",
+      "url": "ansatt/ansatt?$select=*&$top=10"
+    }
+  },
+  "type": "system:rest",
+  "url_pattern": "https://api.tidsbanken.net/%s",
+  "verify_ssl": true
+}
