@@ -42,7 +42,7 @@
               "$last-modified",
               [
                 "datetime-parse",
-                "%Y-%m-%dT%H:%M:%S.%fZ",
+                "%Y-%m-%dT%H:%M:%S.%f%z",
                 "_S.SistEndretDato"
               ]
             ]

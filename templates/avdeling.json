@@ -1,0 +1,48 @@
+[
+  {
+    "_id": "{{@ system @}}-{{@ datatype @}}-all",
+    "add_namespaces": false,
+    "source": {
+      "operation": "{{@ datatype @}}-list",
+      "properties": {
+        "top": "10"
+      },
+      "supports_since": true,
+      "system": "{{@ system @}}",
+      "type": "rest",
+      "updated_expression": "{{ SistEndretDato }}"
+    },
+    "type": "pipe"
+  },
+  {
+    "_id": "{{@ system @}}-{{@ datatype @}}-collect",
+    "add_namespaces": false,
+    "source": {
+      "dataset": "{{@ system @}}-{{@ datatype @}}-all",
+      "type": "dataset"
+    },
+    "transform": [
+      {
+        "rules": {
+          "default": [
+            [
+              "copy",
+              "*"
+            ],
+            [
+              "add",
+              "$last-modified",
+              [
+                "datetime-parse",
+                "%Y-%m-%dT%H:%M:%S.%fZ",
+                "_S.SistEndretDato"
+              ]
+            ]
+          ]
+        },
+        "type": "dtl"
+      }
+    ],
+    "type": "pipe"
+  }
+]

@@ -1,10 +1,18 @@
 {
-  "additional_parameters": {
-  },
+  "additional_parameters": {},
   "auth": "api_key",
   "datatypes": {
     "ansatt": {
       "template": "templates/ansatt.json"
+    },
+    "avdeling": {
+      "template": "templates/avdeling.json"
+    },
+    "kunde": {
+      "template": "templates/kunde.json"
+    },
+    "prosjekt": {
+      "template": "templates/prosjekt.json"
     }
   },
   "system-template": "templates/system.json"
