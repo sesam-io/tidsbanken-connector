@@ -1,0 +1,31 @@
+{
+  "_id": "{{@ system @}}-{{@ datatype @}}-lookup",
+  "add_namespaces": false,
+  "source": {
+    "dataset": "{{@ system @}}-ansatt-all",
+    "type": "dataset"
+  },
+  "transform": [
+    {
+      "allowed_status_codes": "200,201",
+      "operation": "ansatt-lookup",
+      "replace_entity": false,
+      "response_status_property": "lookup-response",
+      "side_effects": false,
+      "system": "{{@ system @}}",
+      "type": "rest"
+    },
+    {
+      "rules": {
+        "default": [
+          [
+            "copy",
+            "*"
+          ]
+        ]
+      },
+      "type": "dtl"
+    }
+  ],
+  "type": "pipe"
+}

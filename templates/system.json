@@ -6,11 +6,137 @@
     "x-api-version": "3.0"
   },
   "operations": {
+    "ansatt-insert": {
+      "method": "PUT",
+      "url": "ansatt/ansatt"
+    },
     "ansatt-list": {
+      "headers": {
+        "X-Sesam-Page": "{% if (previous_request_headers is defined and previous_request_headers['X-Sesam-Page'] is defined) %}{{ previous_request_headers['X-Sesam-Page']|int + 1 }}{% else %}1{% endif %}"
+      },
       "id_expression": "{{ Id }}",
       "method": "GET",
+      "next_page_link": "https://api.tidsbanken.net/ansatt/ansatt",
+      "next_page_termination_strategy": [
+        "same-next-page-request",
+        "empty-result"
+      ],
+      "params": {
+        "$filter": "{% if since is defined and since is not none %}(SistEndretDato gt {{ since }}){% else %}(SistEndretDato gt 1970-01-01){% endif %}",
+        "$select": "*",
+        "$skip": "{% if (previous_request_headers['X-Sesam-Page'] is defined) %}{{ properties.top|int*(headers['X-Sesam-Page']|int-1) }}{% else %}0{% endif %}sesam:markjson",
+        "$top": "{{ properties.top }}"
+      },
       "payload_property": "value",
-      "url": "ansatt/ansatt?$select=*&$top=10"
+      "url": "ansatt/ansatt"
+    },
+    "ansatt-lookup": {
+      "id_expression": "{{ Id }}",
+      "method": "GET",
+      "params": {
+        "$filter": "Id eq {{ entity.Id }}",
+        "$select": "*",
+        "$top": "1"
+      },
+      "payload_property": "value",
+      "url": "ansatt/ansatt"
+    },
+    "ansatt-update": {
+      "method": "PUT",
+      "url": "ansatt/ansatt"
+    },
+    "avdeling-list": {
+      "headers": {
+        "X-Sesam-Page": "{% if (previous_request_headers is defined and previous_request_headers['X-Sesam-Page'] is defined) %}{{ previous_request_headers['X-Sesam-Page']|int + 1 }}{% else %}1{% endif %}"
+      },
+      "id_expression": "{{ Id }}",
+      "method": "GET",
+      "next_page_link": "https://api.tidsbanken.net/ansatt/avdeling",
+      "next_page_termination_strategy": [
+        "same-next-page-request",
+        "empty-result"
+      ],
+      "params": {
+        "$filter": "{% if since is defined and since is not none %}(SistEndretDato gt {{ since }}){% else %}(SistEndretDato gt 1970-01-01){% endif %}",
+        "$select": "*",
+        "$skip": "{% if (previous_request_headers['X-Sesam-Page'] is defined) %}{{ properties.top|int*(headers['X-Sesam-Page']|int-1) }}{% else %}0{% endif %}sesam:markjson",
+        "$top": "{{ properties.top }}"
+      },
+      "payload_property": "value",
+      "url": "ansatt/avdeling"
+    },
+    "kunde-insert": {
+      "method": "POST",
+      "url": "prosjekt/Kunde"
+    },
+    "kunde-list": {
+      "headers": {
+        "X-Sesam-Page": "{% if (previous_request_headers is defined and previous_request_headers['X-Sesam-Page'] is defined) %}{{ previous_request_headers['X-Sesam-Page']|int + 1 }}{% else %}1{% endif %}"
+      },
+      "id_expression": "{{ Id }}",
+      "method": "GET",
+      "next_page_link": "https://api.tidsbanken.net/prosjekt/Kunde",
+      "next_page_termination_strategy": [
+        "same-next-page-request",
+        "empty-result"
+      ],
+      "params": {
+        "$filter": "{% if since is defined and since is not none %}(SistEndretDato gt {{ since }}){% else %}(SistEndretDato gt 1970-01-01){% endif %}",
+        "$select": "*",
+        "$skip": "{% if (previous_request_headers['X-Sesam-Page'] is defined) %}{{ properties.top|int*(headers['X-Sesam-Page']|int-1) }}{% else %}0{% endif %}sesam:markjson",
+        "$top": "{{ properties.top }}"
+      },
+      "payload_property": "value",
+      "url": "prosjekt/Kunde"
+    },
+    "kunde-lookup": {
+      "id_expression": "{{ Id }}",
+      "method": "GET",
+      "params": {
+        "$select": "*"
+      },
+      "payload_property": "value",
+      "url": "prosjekt/Kunde('{{ entity.Id }}')"
+    },
+    "kunde-update": {
+      "method": "PUT",
+      "url": "prosjekt/Kunde"
+    },
+    "prosjekt-insert": {
+      "method": "PUT",
+      "url": "prosjekt/Prosjekt"
+    },
+    "prosjekt-list": {
+      "headers": {
+        "X-Sesam-Page": "{% if (previous_request_headers is defined and previous_request_headers['X-Sesam-Page'] is defined) %}{{ previous_request_headers['X-Sesam-Page']|int + 1 }}{% else %}1{% endif %}"
+      },
+      "id_expression": "{{ Id }}",
+      "method": "GET",
+      "next_page_link": "https://api.tidsbanken.net/prosjekt/Prosjekt",
+      "next_page_termination_strategy": [
+        "same-next-page-request",
+        "empty-result"
+      ],
+      "params": {
+        "$filter": "{% if since is defined and since is not none %}(SistEndretDato gt {{ since }}){% else %}(SistEndretDato gt 1970-01-01){% endif %}",
+        "$select": "*",
+        "$skip": "{% if (previous_request_headers['X-Sesam-Page'] is defined) %}{{ properties.top|int*(headers['X-Sesam-Page']|int-1) }}{% else %}0{% endif %}sesam:markjson",
+        "$top": "{{ properties.top }}"
+      },
+      "payload_property": "value",
+      "url": "prosjekt/Prosjekt"
+    },
+    "prosjekt-lookup": {
+      "id_expression": "{{ Id }}",
+      "method": "GET",
+      "params": {
+        "$select": "*"
+      },
+      "url": "prosjekt/Prosjekt('{{ entity.Id }}')"
+    },
+    "prosjekt-update": {
+      "method": "PUT",
+      "url": "prosjekt/Prosjekt"
     }
   },
   "type": "system:rest",
