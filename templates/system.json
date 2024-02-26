@@ -7,8 +7,8 @@
   },
   "operations": {
     "ansatt-insert": {
-      "method": "PUT",
-      "url": "ansatt/ansatt"
+      "method": "POST",
+      "url": "ansatt/Ansatte"
     },
     "ansatt-list": {
       "headers": {
@@ -103,7 +103,7 @@
       "url": "prosjekt/Kunde"
     },
     "prosjekt-insert": {
-      "method": "PUT",
+      "method": "POST",
       "url": "prosjekt/Prosjekt"
     },
     "prosjekt-list": {

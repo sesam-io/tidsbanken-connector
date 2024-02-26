@@ -24,7 +24,7 @@
     "transform": [
       {
         "properties": {
-          "primary_key": "id",
+          "primary_key": "Id",
           "share_dataset": "{{@ system @}}-{{@ datatype @}}-share"
         },
         "template": "transform-collect-rest",
@@ -67,93 +67,119 @@
       "dataset": "{{@ system @}}-{{@ datatype @}}-transform",
       "type": "dataset"
     },
-    "transform": {
-      "properties": {
-        "operation_insert": "{{@ datatype @}}-insert",
-        "operation_lookup": "{{@ datatype @}}-lookup",
-        "operation_update": "{{@ datatype @}}-update",
-        "primary_key": "Id",
-        "rest_system": "{{@ system @}}",
-        "rewrite_rules_payload": {
-          "payload": [
+    "transform": [
+      {
+        "rules": {
+          "default": [
             [
-              "merge",
-              [
-                "dict",
-                [
-                  "filter",
-                  [
-                    "not",
-                    [
-                      "or",
-                      [
-                        "matches",
-                        "_*",
-                        [
-                          "first",
-                          "_."
-                        ]
-                      ],
-                      [
-                        "matches",
-                        "$*",
-                        [
-                          "first",
-                          "_."
-                        ]
-                      ],
-                      [
-                        "matches",
-                        "sesam_*",
-                        [
-                          "first",
-                          "_."
-                        ]
-                      ]
-                    ]
-                  ],
-                  [
-                    "items",
-                    "_S."
-                  ]
-                ]
-              ]
-            ]
-          ],
-          "rewrite_insert_payload": [
+              "copy",
+              "*"
+            ],
             [
-              "add",
-              "$payload",
+              "if",
               [
-                "list",
-                [
-                  "apply",
-                  "payload",
-                  "_R._T.$source"
-                ]
-              ]
-            ]
-          ],
-          "rewrite_update_payload": [
-            [
-              "add",
-              "$payload",
+                "is-null",
+                "_S.Id"
+              ],
               [
-                "list",
-                [
-                  "apply",
-                  "payload",
-                  "_S.$source"
-                ]
+                "add",
+                "Id",
+                "_S.sesam_{{@ datatype @}}Id"
               ]
             ]
           ]
         },
-        "share_dataset": "{{@ system @}}-{{@ datatype @}}-share"
+        "type": "dtl"
       },
-      "template": "transform-share-rest",
-      "type": "template"
-    },
+      {
+        "properties": {
+          "is_natural_key": true,
+          "operation_insert": "{{@ datatype @}}-insert",
+          "operation_lookup": "{{@ datatype @}}-lookup",
+          "operation_update": "{{@ datatype @}}-update",
+          "primary_key": "Id",
+          "rest_system": "{{@ system @}}",
+          "rewrite_rules_payload": {
+            "payload": [
+              [
+                "merge",
+                [
+                  "dict",
+                  [
+                    "filter",
+                    [
+                      "not",
+                      [
+                        "or",
+                        [
+                          "matches",
+                          "_*",
+                          [
+                            "first",
+                            "_."
+                          ]
+                        ],
+                        [
+                          "matches",
+                          "$*",
+                          [
+                            "first",
+                            "_."
+                          ]
+                        ],
+                        [
+                          "matches",
+                          "sesam_*",
+                          [
+                            "first",
+                            "_."
+                          ]
+                        ]
+                      ]
+                    ],
+                    [
+                      "items",
+                      "_S."
+                    ]
+                  ]
+                ]
+              ]
+            ],
+            "rewrite_insert_payload": [
+              [
+                "add",
+                "$payload",
+                [
+                  "list",
+                  [
+                    "apply",
+                    "payload",
+                    "_R._T.$source"
+                  ]
+                ]
+              ]
+            ],
+            "rewrite_update_payload": [
+              [
+                "add",
+                "$payload",
+                [
+                  "list",
+                  [
+                    "apply",
+                    "payload",
+                    "_S.$source"
+                  ]
+                ]
+              ]
+            ]
+          },
+          "share_dataset": "{{@ system @}}-{{@ datatype @}}-share"
+        },
+        "template": "transform-share-rest",
+        "type": "template"
+      }
+    ],
     "type": "pipe"
   }
 ]
