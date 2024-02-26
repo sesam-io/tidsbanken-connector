@@ -24,7 +24,7 @@
     "transform": [
       {
         "properties": {
-          "primary_key": "id",
+          "primary_key": "Id",
           "share_dataset": "{{@ system @}}-{{@ datatype @}}-share"
         },
         "template": "transform-collect-rest",
@@ -116,20 +116,6 @@
                     "items",
                     "_S."
                   ]
-                ]
-              ]
-            ]
-          ],
-          "rewrite_insert_payload": [
-            [
-              "add",
-              "$payload",
-              [
-                "list",
-                [
-                  "apply",
-                  "payload",
-                  "_R._T.$source"
                 ]
               ]
             ]
