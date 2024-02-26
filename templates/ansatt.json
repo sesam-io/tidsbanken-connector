@@ -17,6 +17,9 @@
   {
     "_id": "{{@ system @}}-{{@ datatype @}}-collect",
     "add_namespaces": false,
+    "exclude_completeness": [
+      "{{@ system @}}-{{@ datatype @}}-share"
+    ],
     "source": {
       "dataset": "{{@ system @}}-{{@ datatype @}}-all",
       "type": "dataset"
