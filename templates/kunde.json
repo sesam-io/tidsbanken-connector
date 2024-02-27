@@ -75,8 +75,12 @@
         "rules": {
           "default": [
             [
-              "copy",
-              "*"
+              "comment",
+              "Tidsbanken API does not seem like null values at insert"
+            ],
+            [
+              "comment",
+              "Need to supply primary key at insert"
             ],
             [
               "if",
@@ -85,10 +89,41 @@
                 "_S.Id"
               ],
               [
-                "add",
-                "Id",
-                "_S.sesam_{{@ datatype @}}Id"
+                [
+                  "add",
+                  "Id",
+                  "_S.sesam_{{@ datatype @}}Id"
+                ],
+                [
+                  "merge",
+                  [
+                    "apply",
+                    "remove-null",
+                    [
+                      "key-values",
+                      "_S."
+                    ]
+                  ]
+                ]
+              ],
+              [
+                "copy",
+                "*"
               ]
+            ]
+          ],
+          "remove-null": [
+            [
+              "filter",
+              [
+                "is-not-null",
+                "_S.value"
+              ]
+            ],
+            [
+              "add",
+              "_S.key",
+              "_S.value"
             ]
           ]
         },

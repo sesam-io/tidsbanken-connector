@@ -59,13 +59,7 @@
   {
     "_id": "{{@ system @}}-{{@ datatype @}}-share",
     "batch_size": 1,
-    "exclude_completeness": [
-      "{{@ system @}}-{{@ datatype @}}-share"
-    ],
     "namespaced_identifiers": false,
-    "pump": {
-      "mode": "manual"
-    },
     "sink": {
       "set_initial_offset": "onload"
     },
@@ -73,79 +67,128 @@
       "dataset": "{{@ system @}}-{{@ datatype @}}-transform",
       "type": "dataset"
     },
-    "transform": {
-      "properties": {
-        "operation_insert": "{{@ datatype @}}-insert",
-        "operation_lookup": "{{@ datatype @}}-lookup",
-        "operation_update": "{{@ datatype @}}-update",
-        "primary_key": "Id",
-        "rest_system": "{{@ system @}}",
-        "rewrite_rules_payload": {
-          "payload": [
+    "transform": [
+      {
+        "rules": {
+          "default": [
             [
-              "merge",
+              "comment",
+              "Tidsbanken API does not seem like null values at insert"
+            ],
+            [
+              "if",
               [
-                "dict",
+                "is-null",
+                "_S.Id"
+              ],
+              [
+                "merge",
                 [
-                  "filter",
+                  "apply",
+                  "remove-null",
                   [
-                    "not",
+                    "key-values",
+                    "_S."
+                  ]
+                ]
+              ],
+              [
+                "copy",
+                "*"
+              ]
+            ]
+          ],
+          "remove-null": [
+            [
+              "filter",
+              [
+                "is-not-null",
+                "_S.value"
+              ]
+            ],
+            [
+              "add",
+              "_S.key",
+              "_S.value"
+            ]
+          ]
+        },
+        "type": "dtl"
+      },
+      {
+        "properties": {
+          "operation_insert": "{{@ datatype @}}-insert",
+          "operation_lookup": "{{@ datatype @}}-lookup",
+          "operation_update": "{{@ datatype @}}-update",
+          "primary_key": "Id",
+          "rest_system": "{{@ system @}}",
+          "rewrite_rules_payload": {
+            "payload": [
+              [
+                "merge",
+                [
+                  "dict",
+                  [
+                    "filter",
                     [
-                      "or",
+                      "not",
                       [
-                        "matches",
-                        "_*",
+                        "or",
                         [
-                          "first",
-                          "_."
-                        ]
-                      ],
-                      [
-                        "matches",
-                        "$*",
+                          "matches",
+                          "_*",
+                          [
+                            "first",
+                            "_."
+                          ]
+                        ],
                         [
-                          "first",
-                          "_."
-                        ]
-                      ],
-                      [
-                        "matches",
-                        "sesam_*",
+                          "matches",
+                          "$*",
+                          [
+                            "first",
+                            "_."
+                          ]
+                        ],
                         [
-                          "first",
-                          "_."
+                          "matches",
+                          "sesam_*",
+                          [
+                            "first",
+                            "_."
+                          ]
                         ]
                       ]
+                    ],
+                    [
+                      "items",
+                      "_S."
                     ]
-                  ],
+                  ]
+                ]
+              ]
+            ],
+            "rewrite_update_payload": [
+              [
+                "add",
+                "$payload",
+                [
+                  "list",
                   [
-                    "items",
-                    "_S."
+                    "apply",
+                    "payload",
+                    "_S.$source"
                   ]
                 ]
               ]
             ]
-          ],
-          "rewrite_update_payload": [
-            [
-              "add",
-              "$payload",
-              [
-                "list",
-                [
-                  "apply",
-                  "payload",
-                  "_S.$source"
-                ]
-              ]
-            ]
-          ]
+          },
+          "share_dataset": "{{@ system @}}-{{@ datatype @}}-share"
         },
-        "share_dataset": "{{@ system @}}-{{@ datatype @}}-share"
-      },
-      "template": "transform-share-rest",
-      "type": "template"
-    },
+        "template": "transform-share-rest",
+        "type": "template"
+      }
+    ],
     "type": "pipe"
   }
 ]
