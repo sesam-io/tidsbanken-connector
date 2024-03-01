@@ -13,6 +13,9 @@
     },
     "prosjekt": {
       "template": "templates/prosjekt.json"
+    },
+    "prosjektlinje": {
+      "template": "templates/prosjektlinje.json"
     }
   },
   "system-template": "templates/system.json"
