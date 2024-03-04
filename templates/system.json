@@ -130,9 +130,12 @@
       "id_expression": "{{ Id }}",
       "method": "GET",
       "params": {
-        "$select": "*"
+        "$filter": "Id eq '{{ entity.Id }}'",
+        "$select": "*",
+        "$top": "1"
       },
-      "url": "prosjekt/Prosjekt('{{ entity.Id }}')"
+      "payload_property": "value",
+      "url": "prosjekt/Prosjekt"
     },
     "prosjekt-update": {
       "method": "PUT",
