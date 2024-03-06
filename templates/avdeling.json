@@ -151,10 +151,7 @@
           "operation_update": "{{@ datatype @}}-update",
           "primary_key": "Id",
           "rest_system": "{{@ system @}}",
-          "share_dataset": "{{@ system @}}-{{@ datatype @}}-share",
-          "update-properties": {
-            "trace": true
-          }
+          "share_dataset": "{{@ system @}}-{{@ datatype @}}-share"
         },
         "template": "transform-share-rest",
         "type": "template"
