@@ -6,7 +6,7 @@
       "template": "templates/ansatt.json"
     },
     "avdeling": {
-      "template": "templates/avdeling.json"
+      "template": "templates/ansatt.json"
     },
     "kunde": {
       "template": "templates/kunde.json"
