@@ -41,12 +41,21 @@
               "*"
             ],
             [
+              "comment",
+              "IS-17110"
+            ],
+            [
               "add",
               "$last-modified",
               [
-                "datetime-parse",
-                "%Y-%m-%dT%H:%M:%S%z",
-                "_S.SistEndretDato"
+                "datetime-plus",
+                "hour",
+                1,
+                [
+                  "datetime-parse",
+                  "%Y-%m-%dT%H:%M:%S.%f%z",
+                  "_S.SistEndretDato"
+                ]
               ]
             ]
           ]
