@@ -17,11 +17,22 @@
   {
     "_id": "{{@ system @}}-{{@ datatype @}}-collect",
     "add_namespaces": false,
+    "exclude_completeness": [
+      "{{@ system @}}-{{@ datatype @}}-share"
+    ],
     "source": {
       "dataset": "{{@ system @}}-{{@ datatype @}}-all",
       "type": "dataset"
     },
     "transform": [
+      {
+        "properties": {
+          "primary_key": "Id",
+          "share_dataset": "{{@ system @}}-{{@ datatype @}}-share"
+        },
+        "template": "transform-collect-rest",
+        "type": "template"
+      },
       {
         "rules": {
           "default": [
@@ -41,6 +52,109 @@
           ]
         },
         "type": "dtl"
+      }
+    ],
+    "type": "pipe"
+  },
+  {
+    "_id": "{{@ system @}}-{{@ datatype @}}-share",
+    "batch_size": 1,
+    "namespaced_identifiers": false,
+    "sink": {
+      "set_initial_offset": "onload"
+    },
+    "source": {
+      "dataset": "{{@ system @}}-{{@ datatype @}}-transform",
+      "type": "dataset"
+    },
+    "transform": [
+      {
+        "rules": {
+          "default": [
+            [
+              "comment",
+              "Tidsbanken API does not seem like null values at insert"
+            ],
+            [
+              "comment",
+              "Need to supply primary key at insert"
+            ],
+            [
+              "if",
+              [
+                "is-null",
+                "_S.Id"
+              ],
+              [
+                [
+                  "add",
+                  "Id",
+                  "_S.sesam_{{@ datatype @}}Id"
+                ],
+                [
+                  "merge",
+                  [
+                    "apply",
+                    "remove-null",
+                    [
+                      "key-values",
+                      "_S."
+                    ]
+                  ]
+                ]
+              ],
+              [
+                [
+                  "copy",
+                  "*",
+                  [
+                    "list",
+                    "_*",
+                    "$*",
+                    "Id"
+                  ]
+                ],
+                [
+                  "add",
+                  "$payload",
+                  "_T."
+                ],
+                [
+                  "copy",
+                  "*"
+                ]
+              ]
+            ]
+          ],
+          "remove-null": [
+            [
+              "filter",
+              [
+                "is-not-null",
+                "_S.value"
+              ]
+            ],
+            [
+              "add",
+              "_S.key",
+              "_S.value"
+            ]
+          ]
+        },
+        "type": "dtl"
+      },
+      {
+        "properties": {
+          "is_natural_key": true,
+          "operation_insert": "{{@ datatype @}}-insert",
+          "operation_lookup": "{{@ datatype @}}-lookup",
+          "operation_update": "{{@ datatype @}}-update",
+          "primary_key": "Id",
+          "rest_system": "{{@ system @}}",
+          "share_dataset": "{{@ system @}}-{{@ datatype @}}-share"
+        },
+        "template": "transform-share-rest",
+        "type": "template"
       }
     ],
     "type": "pipe"

@@ -45,6 +45,10 @@
       "method": "PUT",
       "url": "ansatt/ansatt"
     },
+    "avdeling-insert": {
+      "method": "POST",
+      "url": "ansatt/Avdeling"
+    },
     "avdeling-list": {
       "headers": {
         "X-Sesam-Page": "{% if (previous_request_headers is defined and previous_request_headers['X-Sesam-Page'] is defined) %}{{ previous_request_headers['X-Sesam-Page']|int + 1 }}{% else %}1{% endif %}"
@@ -64,6 +68,21 @@
       },
       "payload_property": "value",
       "url": "ansatt/avdeling"
+    },
+    "avdeling-lookup": {
+      "id_expression": "{{ Id }}",
+      "method": "GET",
+      "params": {
+        "$filter": "Id eq '{{ entity.Id }}'",
+        "$select": "*",
+        "$top": "1"
+      },
+      "payload_property": "value",
+      "url": "ansatt/avdeling"
+    },
+    "avdeling-update": {
+      "method": "PATCH",
+      "url": "ansatt/Avdeling/{{ entity.Id }}"
     },
     "kunde-insert": {
       "method": "POST",
