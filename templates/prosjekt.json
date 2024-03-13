@@ -20,6 +20,7 @@
     "exclude_completeness": [
       "{{@ system @}}-{{@ datatype @}}-share"
     ],
+    "namespaced_identifiers": false,
     "source": {
       "dataset": "{{@ system @}}-{{@ datatype @}}-all",
       "type": "dataset"
@@ -39,6 +40,54 @@
             [
               "copy",
               "*"
+            ],
+            [
+              "add",
+              "AvsluttetDato",
+              [
+                "first",
+                [
+                  "split",
+                  "+",
+                  "_S.AvsluttetDato"
+                ]
+              ]
+            ],
+            [
+              "add",
+              "BestillingsDato",
+              [
+                "first",
+                [
+                  "split",
+                  "+",
+                  "_S.BestillingsDato"
+                ]
+              ]
+            ],
+            [
+              "add",
+              "FerdigDato",
+              [
+                "first",
+                [
+                  "split",
+                  "+",
+                  "_S.FerdigDato"
+                ]
+              ]
+            ],
+            [
+              "add",
+              "StartDato",
+              [
+                "first",
+                [
+                  "split",
+                  "+",
+                  "_S.StartDato"
+                ]
+              ]
             ],
             [
               "comment",
@@ -164,66 +213,6 @@
                   ]
                 ]
               ]
-            ],
-            [
-              "merge",
-              [
-                "dict",
-                "AvsluttetDato",
-                [
-                  "first",
-                  [
-                    "split",
-                    "+",
-                    "_S.AvsluttetDato"
-                  ]
-                ]
-              ]
-            ],
-            [
-              "merge",
-              [
-                "dict",
-                "BestillingsDato",
-                [
-                  "first",
-                  [
-                    "split",
-                    "+",
-                    "_S.BestillingsDato"
-                  ]
-                ]
-              ]
-            ],
-            [
-              "merge",
-              [
-                "dict",
-                "FerdigDato",
-                [
-                  "first",
-                  [
-                    "split",
-                    "+",
-                    "_S.FerdigDato"
-                  ]
-                ]
-              ]
-            ],
-            [
-              "merge",
-              [
-                "dict",
-                "StartDato",
-                [
-                  "first",
-                  [
-                    "split",
-                    "+",
-                    "_S.StartDato"
-                  ]
-                ]
-              ]
             ]
           ],
           "remove-null": [
@@ -250,6 +239,56 @@
           "operation_update": "{{@ datatype @}}-update",
           "primary_key": "Id",
           "rest_system": "{{@ system @}}",
+          "rules": {
+            "lookup_rewrite_based_on": [
+              [
+                "merge",
+                "_S."
+              ],
+              [
+                "merge",
+                [
+                  "dict",
+                  "AvsluttetDato",
+                  [
+                    "first",
+                    [
+                      "split",
+                      "+",
+                      "_S.AvsluttetDato"
+                    ]
+                  ],
+                  "BestillingsDato",
+                  [
+                    "first",
+                    [
+                      "split",
+                      "+",
+                      "_S.BestillingsDato"
+                    ]
+                  ],
+                  "FerdigDato",
+                  [
+                    "first",
+                    [
+                      "split",
+                      "+",
+                      "_S.FerdigDato"
+                    ]
+                  ],
+                  "StartDato",
+                  [
+                    "first",
+                    [
+                      "split",
+                      "+",
+                      "_S.StartDato"
+                    ]
+                  ]
+                ]
+              ]
+            ]
+          },
           "share_dataset": "{{@ system @}}-{{@ datatype @}}-share"
         },
         "template": "transform-share-rest",
