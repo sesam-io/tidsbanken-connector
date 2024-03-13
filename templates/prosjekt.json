@@ -102,8 +102,127 @@
                 ]
               ],
               [
-                "copy",
-                "*"
+                [
+                  "add",
+                  "$payload",
+                  [
+                    "list",
+                    [
+                      "apply",
+                      "payload",
+                      "_S."
+                    ]
+                  ]
+                ],
+                [
+                  "copy",
+                  "*"
+                ]
+              ]
+            ]
+          ],
+          "payload": [
+            [
+              "merge",
+              [
+                "dict",
+                [
+                  "filter",
+                  [
+                    "not",
+                    [
+                      "or",
+                      [
+                        "matches",
+                        "_*",
+                        [
+                          "first",
+                          "_."
+                        ]
+                      ],
+                      [
+                        "matches",
+                        "$*",
+                        [
+                          "first",
+                          "_."
+                        ]
+                      ],
+                      [
+                        "matches",
+                        "sesam_*",
+                        [
+                          "first",
+                          "_."
+                        ]
+                      ]
+                    ]
+                  ],
+                  [
+                    "items",
+                    "_S."
+                  ]
+                ]
+              ]
+            ],
+            [
+              "merge",
+              [
+                "dict",
+                "AvsluttetDato",
+                [
+                  "first",
+                  [
+                    "split",
+                    "+",
+                    "_S.AvsluttetDato"
+                  ]
+                ]
+              ]
+            ],
+            [
+              "merge",
+              [
+                "dict",
+                "BestillingsDato",
+                [
+                  "first",
+                  [
+                    "split",
+                    "+",
+                    "_S.AvsluttetDato"
+                  ]
+                ]
+              ]
+            ],
+            [
+              "merge",
+              [
+                "dict",
+                "FerdigDato",
+                [
+                  "first",
+                  [
+                    "split",
+                    "+",
+                    "_S.AvsluttetDato"
+                  ]
+                ]
+              ]
+            ],
+            [
+              "merge",
+              [
+                "dict",
+                "StartDato",
+                [
+                  "first",
+                  [
+                    "split",
+                    "+",
+                    "_S.AvsluttetDato"
+                  ]
+                ]
               ]
             ]
           ],
@@ -175,19 +294,13 @@
                     ]
                   ]
                 ]
-              ]
-            ],
-            "rewrite_update_payload": [
+              ],
               [
-                "add",
-                "$payload",
+                "merge",
                 [
-                  "list",
-                  [
-                    "apply",
-                    "payload",
-                    "_S.$source"
-                  ]
+                  "dict",
+                  "AvsluttetDato",
+                  1
                 ]
               ]
             ]
