@@ -190,7 +190,7 @@
                   [
                     "split",
                     "+",
-                    "_S.AvsluttetDato"
+                    "_S.BestillingsDato"
                   ]
                 ]
               ]
@@ -205,7 +205,7 @@
                   [
                     "split",
                     "+",
-                    "_S.AvsluttetDato"
+                    "_S.FerdigDato"
                   ]
                 ]
               ]
@@ -220,7 +220,7 @@
                   [
                     "split",
                     "+",
-                    "_S.AvsluttetDato"
+                    "_S.StartDato"
                   ]
                 ]
               ]
@@ -250,61 +250,6 @@
           "operation_update": "{{@ datatype @}}-update",
           "primary_key": "Id",
           "rest_system": "{{@ system @}}",
-          "rewrite_rules_payload": {
-            "payload": [
-              [
-                "merge",
-                [
-                  "dict",
-                  [
-                    "filter",
-                    [
-                      "not",
-                      [
-                        "or",
-                        [
-                          "matches",
-                          "_*",
-                          [
-                            "first",
-                            "_."
-                          ]
-                        ],
-                        [
-                          "matches",
-                          "$*",
-                          [
-                            "first",
-                            "_."
-                          ]
-                        ],
-                        [
-                          "matches",
-                          "sesam_*",
-                          [
-                            "first",
-                            "_."
-                          ]
-                        ]
-                      ]
-                    ],
-                    [
-                      "items",
-                      "_S."
-                    ]
-                  ]
-                ]
-              ],
-              [
-                "merge",
-                [
-                  "dict",
-                  "AvsluttetDato",
-                  1
-                ]
-              ]
-            ]
-          },
           "share_dataset": "{{@ system @}}-{{@ datatype @}}-share"
         },
         "template": "transform-share-rest",
